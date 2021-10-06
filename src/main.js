@@ -1,16 +1,24 @@
 /*
-Source code for the project of Computer Graphics.
+Source code for the project of Computer Graphics. The skeleton for the source code has been suggested by Professor Stella.
 */
+
+/////////////// GLOBAL VARIABLES /////////////////////
+
+var canvas;
+var gl;
+
+
+//////////// FUNCTIONS DEFINITION ///////////////////
 
 function main(){
 
-    getCanvas();
-    initializeYourProgram();
-    drawScene();
+    canvasLoader.getCanvas();
+    programInit();
+    //drawScene();
     
 }
 
-function initializeYourProgram(){
+function programInit(){
 
     /*
     STEPS DA ESEGUIRE QUI:
@@ -24,17 +32,21 @@ function initializeYourProgram(){
     */
 
     //Alcune funzioni già definite potrebbero aiutare
-    compileAndLinkShaders();
-    getAttributesAndUniformLocations();
-    createVAO();
-    putAttributesOnGPU();
+
+    modelLoader.loadModels("assets/tree3.obj");
+    console.log(modelVertices);
+
+    //compileAndLinkShaders();
+    //getAttributesAndUniformLocations();
+    //createVAO();
+    //putAttributesOnGPU();
 
 }
 
 function updateTransformationMatrices(){
-    updateModel();
-    updateView();
-    updatePerspective();
+    //updateModel();
+    //updateView();
+    //updatePerspective();
 }
 
 function drawScene(){
@@ -53,10 +65,19 @@ function drawScene(){
     */
 
     //Alcune funzioni già definite potrebbero aiutare
-    updateTransformationMatrices();
-    bindVertexArray();
-    sendUniformsToGPU();
-    drawElements(); /*oppure*/ drawArray();
+    //updateTransformationMatrices();
+    //bindVertexArray();
+    //sendUniformsToGPU();
+    //drawElements(); /*oppure*/ drawArray();
 
-    window.requestAnimationFrame(drawScene);
+    //window.requestAnimationFrame(drawScene);
 }
+
+
+////////////////// CODE EXECUTION ////////////////////
+
+/*
+Here starts the execution of the code by calling "main".
+*/
+
+main();
