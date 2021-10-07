@@ -12,7 +12,9 @@ DO NOT USE AN ALREADY DEFINED INDEX!
 4) Open src/lib/VAOsCreator.js and add a new if condition in the "create" function in order to be able to call the correct VAO builder.
 In the same file, write the VAO builder for the new asset;
 
-5) Open src/main.js and in the function "init" you have to add the following lines:
+5) Open src/lib/uniformUtils and add a new uniform function. This is needed in order to have different positions for the model in the space, for setting the textures and much more. You then will have to call it in the drawScene().
+
+6) Open src/main.js and in the function "init" you have to add the following lines:
 
 await modelLoader.loadModel("assets/modelID.obj", modelID);
     programs[modelID] = await shaders.shaderLoader("glsl/modelID_vs.glsl", "glsl/modelID_fs.glsl");
@@ -22,6 +24,6 @@ In the drawScene() function you have to add the following lines in order to draw
 
 gl.bindVertexArray(vaos[modelID]);
     gl.useProgram(programs[modelID]);
+    uniformUtils.modelIDUniforms(programs[modelID]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[modelID], gl.UNSIGNED_SHORT, 0);
 
-Now the model is rendered.

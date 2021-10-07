@@ -33,6 +33,7 @@ async function init(){
 
     // Since WebGL gives 8 slots for the textures, this functions have to specify the slot to use.
     textureUtils.loadTexture("assets/textures/Texture_01.jpg", 0);
+    textureUtils.loadTexture("assets/textures/floyd.jpg", 1);
 
     // Each model has a VAO and a program.
     await modelLoader.loadModel("assets/tree3.obj", tree3);
@@ -56,19 +57,20 @@ function drawScene(){
 
     // CALL OF DRAWING FUNCTIONS
 
-    //Draw tree3
-    
+    // Draw tree3
     gl.bindVertexArray(vaos[tree3]);
     gl.useProgram(programs[tree3]);
     uniformUtils.tree3Uniforms(programs[tree3]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree3], gl.UNSIGNED_SHORT, 0);
 
+    // Draw a copy of tree3 but shifted and with a different texture
     uniformUtils.tree3rightShiftUniforms(programs[tree3]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree3], gl.UNSIGNED_SHORT, 0);
 
-    //Draw tree1
+    // Draw tree1
     gl.bindVertexArray(vaos[tree1]);
     gl.useProgram(programs[tree1]);
+    uniformUtils.tree1Uniforms(programs[tree1]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree1], gl.UNSIGNED_SHORT, 0);
     //window.requestAnimationFrame(drawScene);
 
