@@ -1,0 +1,27 @@
+Every asset in the game is associated to a ModelID. The modelID is just a name associated to a number, which identifies important things like the position of the VAO of the model in the array of VAOs.
+If you want to add a new asset to the game, you have to:
+
+1) Paste the modelID.obj file in the folder src/assets;
+
+2) Write its fragment shader and its vertex shader and paste them in the folder src/glsl, naming them "modelID_vs.glsl" and "modelID_fs.glsl";
+
+3) Open src/lib/modelLoader.js and add a new index and the identifier for the asset under "MODEL IDs" section, for example "var modelID = 2";
+
+DO NOT USE AN ALREADY DEFINED INDEX!
+
+4) Open src/lib/VAOsCreator.js and add a new if condition in the "create" function in order to be able to call the correct VAO builder.
+In the same file, write the VAO builder for the new asset;
+
+5) Open src/main.js and in the function "init" you have to add the following lines:
+
+await modelLoader.loadModel("assets/modelID.obj", modelID);
+    programs[modelID] = await shaders.shaderLoader("glsl/modelID_vs.glsl", "glsl/modelID_fs.glsl");
+    vaos[modelID] = VAO.create(modelID, programs[modelID]);
+
+In the drawScene() function you have to add the following lines in order to draw the model:
+
+gl.bindVertexArray(vaos[modelID]);
+    gl.useProgram(programs[modelID]);
+    gl.drawElements(gl.TRIANGLES, elementsNumber[modelID], gl.UNSIGNED_SHORT, 0);
+
+Now the model is rendered.
