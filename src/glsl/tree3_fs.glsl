@@ -8,8 +8,11 @@ precision mediump float;
 // Output for the Fragment Shader = colour
 //of the pixel
 out vec4 outColor;
+in vec2 uvCoord;
+
+uniform sampler2D u_texture;
 
 void main() {
-// Set the output to a constant 
-outColor = vec4(0.0,0.0,1.0, 1);
+// Set the output to the textures
+outColor = texture(u_texture, uvCoord);
 }
