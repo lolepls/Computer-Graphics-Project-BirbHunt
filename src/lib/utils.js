@@ -391,3 +391,17 @@ var objUtils = {
 
 }
 
+var fileUtils = {
+
+    loadFile:async function(url){
+        var response = await fetch(url);
+        if (!response.ok) {
+            alert('Network response was not ok');
+            return;
+        }
+        var text = await response.text();
+        return text;
+    },
+
+}
+
