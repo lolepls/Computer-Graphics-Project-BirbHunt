@@ -9,7 +9,9 @@
 in vec4 a_position;
 in vec2 a_uv;
 
-uniform mat4 matrix;
+uniform mat4 perspMatrix;
+uniform mat4 viewMatrix;
+uniform mat4 worldMatrix;
 
 out vec2 uvCoord;
 
@@ -17,7 +19,10 @@ void main() {
 // gl_Position is a special variable
 // the Vertex Shader
 // is responsible for setting it
+
 uvCoord = a_uv;
-gl_Position = matrix * a_position;
+mat4 matrix = viewMatrix * perspMatrix;
+matrix = matrix * worldMatrix;
+gl_Position = a_position * matrix;
 
 }

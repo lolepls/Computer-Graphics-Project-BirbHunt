@@ -1,0 +1,3 @@
+1) In main.js add the line
+textureUtils.loadTexture("assets/textures/texture.jpg", SLOT);
+Be careful: the SLOT must be one of the available. There are only 8 slots going from 0 to 7.

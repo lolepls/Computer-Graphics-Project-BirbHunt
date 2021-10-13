@@ -15,4 +15,5 @@ uniform sampler2D u_texture;
 void main() {
 // Set the output to the textures
 outColor = texture(u_texture, uvCoord);
+
 }

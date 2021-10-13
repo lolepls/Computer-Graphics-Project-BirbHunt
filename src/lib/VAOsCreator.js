@@ -19,6 +19,9 @@ var VAO = {
         return tree1_vao_creator(program);
     }
 
+    if (model == floor){
+        return floor_vao_creator(program);
+    }
        
 
     }
@@ -95,6 +98,15 @@ function tree1_vao_creator(program){
     var indexBuffer = gl.createBuffer();
     gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, indexBuffer);
     gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(modelIndices), gl.STATIC_DRAW); 
+
+    //UV Coordinates:
+    var uvBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, uvBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(modelTextureCoord), gl.STATIC_DRAW);
+
+    var uvAttributeLocation = gl.getAttribLocation(program, "a_uv");
+    gl.enableVertexAttribArray(uvAttributeLocation);
+    gl.vertexAttribPointer(uvAttributeLocation, 2, gl.FLOAT, normalize, stride, offset);
 
     gl.bindVertexArray(null);
 

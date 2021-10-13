@@ -7,6 +7,10 @@ Source code for the project of Computer Graphics.
 var programs = new Array();
 var vaos = new Array();
 
+var perspectiveMatrix;
+var cameraMatrix;
+var projectionMatrix;
+
 //////////// FUNCTIONS DEFINITION ///////////////////
 
 async function main(){
@@ -14,13 +18,26 @@ async function main(){
     canvasLoader.getCanvas();
     canvasLoader.resizeCanvasToDisplaySize(canvas);
     await init();
-
-    //gameEngine.engineUpdate();
-    drawScene();
+    window.addEventListener("keydown", gameEngine.cameraUpdate, false);
+    updateGame();
     
 }
 
 async function init(){
+
+    // Creation of the perspective matrix, which will be constant through all the application:
+    var fov = 40;
+    var aspect = canvas.clientWidth / canvas.clientHeight;
+    var zNear = 1;
+    var zFar = 2000;
+    perspectiveMatrix = matrixUtils.MakePerspective(fov, aspect, zNear, zFar);
+
+    // Camera initialization:
+    cameraMatrix = matrixUtils.MakeView(cx, cy, cz, elevation, angle);
+
+    // Projection matrix initialization:
+    projectionMatrix = matrixUtils.multiplyMatrices(perspectiveMatrix, cameraMatrix);
+  
 
     //Setting of the Global states (viewport size, viewport background color, Depth test)
     gl.viewport(0, 0, gl.canvas.width, gl.canvas.height);
@@ -33,7 +50,7 @@ async function init(){
 
     // Since WebGL gives 8 slots for the textures, this functions have to specify the slot to use.
     textureUtils.loadTexture("assets/textures/Texture_01.jpg", 0);
-    textureUtils.loadTexture("assets/textures/floyd.jpg", 1);
+    textureUtils.loadTexture("assets/textures/rock.png", 1);
 
     // Each model has a VAO and a program.
     await modelLoader.loadModel("assets/tree3.obj", tree3);
@@ -43,11 +60,17 @@ async function init(){
     await modelLoader.loadModel("assets/tree1.obj", tree1);
     programs[tree1] = await shaders.shaderLoader("glsl/tree1_vs.glsl", "glsl/tree1_fs.glsl");
     vaos[tree1] = VAO.create(tree1, programs[tree1]);
-   
 
 
 }
 
+function updateGame(){
+
+    //gameEngine.engineUpdate();
+    drawScene();
+    window.requestAnimationFrame(updateGame);
+
+}
 
 function drawScene(){
 
@@ -57,22 +80,29 @@ function drawScene(){
 
     // CALL OF DRAWING FUNCTIONS
 
+
     // Draw tree3
     gl.bindVertexArray(vaos[tree3]);
     gl.useProgram(programs[tree3]);
     uniformUtils.tree3Uniforms(programs[tree3]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree3], gl.UNSIGNED_SHORT, 0);
 
+    /*
+    
     // Draw a copy of tree3 but shifted and with a different texture
     uniformUtils.tree3rightShiftUniforms(programs[tree3]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree3], gl.UNSIGNED_SHORT, 0);
 
+    
     // Draw tree1
     gl.bindVertexArray(vaos[tree1]);
     gl.useProgram(programs[tree1]);
     uniformUtils.tree1Uniforms(programs[tree1]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree1], gl.UNSIGNED_SHORT, 0);
-    //window.requestAnimationFrame(drawScene);
+
+    */
+
+
 
 }
 
@@ -82,5 +112,6 @@ function drawScene(){
 /*
 Here starts the execution of the code by calling "main".
 */
+
 
 window.onload = main;
