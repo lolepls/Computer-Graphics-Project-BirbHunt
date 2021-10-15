@@ -9,8 +9,7 @@
 in vec4 a_position;
 in vec2 a_uv;
 
-uniform mat4 perspMatrix;
-uniform mat4 viewMatrix;
+uniform mat4 projectionMatrix;
 uniform mat4 worldMatrix;
 
 out vec2 uvCoord;
@@ -21,8 +20,7 @@ void main() {
 // is responsible for setting it
 
 uvCoord = a_uv;
-mat4 matrix = viewMatrix * perspMatrix;
-matrix = matrix * worldMatrix;
-gl_Position = a_position * matrix;
+mat4 matrix = projectionMatrix * worldMatrix;
+gl_Position = matrix * a_position;
 
 }

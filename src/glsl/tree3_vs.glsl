@@ -20,7 +20,7 @@ void main() {
 // is responsible for setting it
 
 uvCoord = a_uv;
-mat4 matrix = worldMatrix * projectionMatrix;
+mat4 matrix = projectionMatrix * worldMatrix;
 gl_Position = matrix * a_position;
 
 }

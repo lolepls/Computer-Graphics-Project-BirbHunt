@@ -1,55 +1,78 @@
-// Camera variables:
-var cx = 0.0;
-var cy = 2.0;
-var cz = 10.0;
-var elevation = 0.0;
-var angle = 0.0;
+/*
+This file contains the game engine, which manages the camera movement.
+*/
 
-var u = [0.0, 1.0, 0.0];
-var a = [0.0, 0.0, -1.0];
+////// GLOBAL VARIABLES ////////
 
+/// TIMING VARIABLES ///
+var pastTimeStamp = 0; // Instant zero.
+
+/// CAMERA VARIABLES ///
+var cx = 0.0; //Initial x position in the space of the player
+var cy = 2.0; // Initial y position in the space of the player
+var cz = 0.0; // Initial z position in the space of the player
+
+var elevation = 0.0; // Initial elevation angle of the player
+var angle = 180.0; // Initial angle to which the camera is oriented.
+var roll = 0.0; // Initial roll of the player
+
+var speed = 5; // walking speed of the camera (units/second)
+var turnspeed = 90; // turning speed of the camera (angles/second)
+
+///// CODE /////
 
 var gameEngine = {
 
-    cameraUpdate: function(e){
+    cameraUpdate: function(timestamp){
 
-      /*
-      This function has to provide the movement for the camera. The most difficult thing is to obtain
-      traslation and rotation around an arbitrary axis every time.
-      */
+      timestamp *= 0.001;  // Convert time to seconds;
+      deltaTime = timestamp - pastTimeStamp;
+      pastTimeStamp = timestamp;
 
-      delta_rotation = 1.0;
+      if(angle>360){
+        angle = angle - 360;
+      }
 
-      if(e.keyCode == 65){//a
+      if(angle<-360){
+        angle = angle + 360;
+      }
 
-        angle = angle + delta_rotation;
-        //cameraMatrix = matrixUtils.MakeLookAt(a, c, u);
-        cameraMatrix = matrixUtils.MakeView(cx, cy, cz, elevation, angle);
+      
+      cameraMatrix = matrixUtils.MakeTranslateMatrix(cx, cy, cz);
+      cameraMatrix = matrixUtils.multiplyMatrices(cameraMatrix, matrixUtils.MakeRotateXMatrix(elevation));
+      cameraMatrix = matrixUtils.multiplyMatrices(cameraMatrix, matrixUtils.MakeRotateYMatrix(-angle));
+      cameraMatrix = matrixUtils.multiplyMatrices(cameraMatrix, matrixUtils.MakeRotateZMatrix(roll));
 
+      if(keyPressed['65']){//a
+
+        angle = angle - deltaTime * turnspeed;
        
       }
 
-      if(e.keyCode == 68){//d
+      if(keyPressed['68']){//d
 
-        angle = angle - delta_rotation;
-        cameraMatrix = matrixUtils.MakeView(cx, cy, cz, elevation, angle);
-
-      }
-
-      if(e.keyCode == 87){//w
-
-        cx = cx + Math.sin(angle);
-        cz = cz - Math.cos(angle);
-        cameraMatrix = matrixUtils.MakeView(cx, cy, cz, elevation, angle);
+      angle = angle + deltaTime * turnspeed;
 
       }
 
-      if(e.keyCode == 83){//s
+      if(keyPressed['87']){//w
+
+        cx -= cameraMatrix[2] * deltaTime * speed;
+        cy -= cameraMatrix[6] * deltaTime * speed;
+        cz -= cameraMatrix[10] * deltaTime * speed;
+  
+      }
+
+      if(keyPressed['83']){//s
+
+        cx -= -cameraMatrix[2] * deltaTime * speed;
+        cy -= -cameraMatrix[6] * deltaTime * speed;
+        cz -= -cameraMatrix[10] * deltaTime * speed;
 
       }
 
+      cameraMatrix = matrixUtils.invertMatrix(cameraMatrix);
       projectionMatrix = matrixUtils.multiplyMatrices(perspectiveMatrix, cameraMatrix);
-      console.log(cameraMatrix);
 
     },
 

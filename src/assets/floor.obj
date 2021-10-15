@@ -1,0 +1,11 @@
+# Blender v2.82 OBJ File: ''
+# www.blender.org
+mtllib floor.mtl
+o floor_ID240.996
+
+v -30.0, 0.0, 30.0
+v -30.0, 0.0, -30.0
+v 30.0, 0.0, 30.0
+v 30.0, 
+
+

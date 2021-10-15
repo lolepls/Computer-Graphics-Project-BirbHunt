@@ -11,6 +11,8 @@ var perspectiveMatrix;
 var cameraMatrix;
 var projectionMatrix;
 
+var keyPressed = [];
+
 //////////// FUNCTIONS DEFINITION ///////////////////
 
 async function main(){
@@ -18,8 +20,7 @@ async function main(){
     canvasLoader.getCanvas();
     canvasLoader.resizeCanvasToDisplaySize(canvas);
     await init();
-    window.addEventListener("keydown", gameEngine.cameraUpdate, false);
-    updateGame();
+    window.requestAnimationFrame(updateGame);
     
 }
 
@@ -31,6 +32,7 @@ async function init(){
     var zNear = 1;
     var zFar = 2000;
     perspectiveMatrix = matrixUtils.MakePerspective(fov, aspect, zNear, zFar);
+
 
     // Camera initialization:
     cameraMatrix = matrixUtils.MakeView(cx, cy, cz, elevation, angle);
@@ -50,7 +52,7 @@ async function init(){
 
     // Since WebGL gives 8 slots for the textures, this functions have to specify the slot to use.
     textureUtils.loadTexture("assets/textures/Texture_01.jpg", 0);
-    textureUtils.loadTexture("assets/textures/rock.png", 1);
+    textureUtils.loadTexture("assets/textures/textures_chess.jpg", 1);
 
     // Each model has a VAO and a program.
     await modelLoader.loadModel("assets/tree3.obj", tree3);
@@ -64,9 +66,10 @@ async function init(){
 
 }
 
-function updateGame(){
+function updateGame(timestamp){
 
-    //gameEngine.engineUpdate();
+    gameEngine.cameraUpdate(timestamp);
+    console.log(matrixUtils.transposeMatrix(prova));
     drawScene();
     window.requestAnimationFrame(updateGame);
 
@@ -77,30 +80,25 @@ function drawScene(){
     // GLOBAL STATE SETTING
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); //da fare ogni volta che si disegna la scena
 
-
     // CALL OF DRAWING FUNCTIONS
-
-
+    
     // Draw tree3
     gl.bindVertexArray(vaos[tree3]);
     gl.useProgram(programs[tree3]);
     uniformUtils.tree3Uniforms(programs[tree3]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree3], gl.UNSIGNED_SHORT, 0);
 
-    /*
     
     // Draw a copy of tree3 but shifted and with a different texture
     uniformUtils.tree3rightShiftUniforms(programs[tree3]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree3], gl.UNSIGNED_SHORT, 0);
 
-    
+
     // Draw tree1
     gl.bindVertexArray(vaos[tree1]);
     gl.useProgram(programs[tree1]);
     uniformUtils.tree1Uniforms(programs[tree1]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree1], gl.UNSIGNED_SHORT, 0);
-
-    */
 
 
 
@@ -113,5 +111,13 @@ function drawScene(){
 Here starts the execution of the code by calling "main".
 */
 
+window.addEventListener('keydown', (e) => {
+    keyPressed[e.keyCode] = true;
+    e.preventDefault();
+  });
+  window.addEventListener('keyup', (e) => {
+    keyPressed[e.keyCode] = false;
+    e.preventDefault();
+  });
 
 window.onload = main;
