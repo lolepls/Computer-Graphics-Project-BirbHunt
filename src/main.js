@@ -27,7 +27,7 @@ async function main(){
 async function init(){
 
     // Creation of the perspective matrix, which will be constant through all the application:
-    var fov = 40;
+    var fov = 60;
     var aspect = canvas.clientWidth / canvas.clientHeight;
     var zNear = 1;
     var zFar = 2000;
@@ -51,8 +51,10 @@ async function init(){
     //////// LOADING OF THE MODELS, CREATION OF VAOs AND PROGRAMS //////////////
 
     // Since WebGL gives 8 slots for the textures, this functions have to specify the slot to use.
-    textureUtils.loadTexture("assets/textures/Texture_01.jpg", 0);
-    textureUtils.loadTexture("assets/textures/textures_chess.jpg", 1);
+    // NOTE: Slot 0 is reserved to the skybox texture.
+
+    textureUtils.loadTexture("assets/textures/Texture_01.jpg", 1);
+    textureUtils.loadTexture("assets/textures/texture_birb.png", 2);
 
     // Each model has a VAO and a program.
     await modelLoader.loadModel("assets/tree3.obj", tree3);
@@ -63,13 +65,18 @@ async function init(){
     programs[tree1] = await shaders.shaderLoader("glsl/tree1_vs.glsl", "glsl/tree1_fs.glsl");
     vaos[tree1] = VAO.create(tree1, programs[tree1]);
 
+    await modelLoader.loadModel("assets/flower.obj", flower);
+    programs[flower] = await shaders.shaderLoader("glsl/flower_vs.glsl", "glsl/flower_fs.glsl");
+    vaos[flower] = VAO.create(flower, programs[flower]);
+
+    // Skybox initialization:
+    skybox.init();
 
 }
 
 function updateGame(timestamp){
 
     gameEngine.cameraUpdate(timestamp);
-    console.log(matrixUtils.transposeMatrix(prova));
     drawScene();
     window.requestAnimationFrame(updateGame);
 
@@ -81,18 +88,19 @@ function drawScene(){
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT); //da fare ogni volta che si disegna la scena
 
     // CALL OF DRAWING FUNCTIONS
-    
+
+    // Draw skybox
+    skybox.drawSkybox();
+
     // Draw tree3
     gl.bindVertexArray(vaos[tree3]);
     gl.useProgram(programs[tree3]);
     uniformUtils.tree3Uniforms(programs[tree3]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree3], gl.UNSIGNED_SHORT, 0);
 
-    
     // Draw a copy of tree3 but shifted and with a different texture
     uniformUtils.tree3rightShiftUniforms(programs[tree3]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree3], gl.UNSIGNED_SHORT, 0);
-
 
     // Draw tree1
     gl.bindVertexArray(vaos[tree1]);
@@ -100,7 +108,11 @@ function drawScene(){
     uniformUtils.tree1Uniforms(programs[tree1]);
     gl.drawElements(gl.TRIANGLES, elementsNumber[tree1], gl.UNSIGNED_SHORT, 0);
 
-
+    // Draw flower
+    gl.bindVertexArray(vaos[flower]);
+    gl.useProgram(programs[flower]);
+    uniformUtils.flowerUniforms(programs[flower]);
+    gl.drawElements(gl.TRIANGLES, elementsNumber[flower], gl.UNSIGNED_SHORT, 0);
 
 }
 

@@ -9,11 +9,7 @@ var textureUtils = {
         // Create a texture.
         var texture = gl.createTexture();
 
-        // Choose which texture unit to use
-        if(textureUnit == 0){
-            gl.activeTexture(gl.TEXTURE0);
-        }
-        else if(textureUnit == 1){
+        if(textureUnit == 1){
             gl.activeTexture(gl.TEXTURE1);
         }
         else if(textureUnit == 2){
@@ -63,6 +59,7 @@ var textureUtils = {
                 // Choose which texture unit to use
                 if(textureID == 0){
                     gl.activeTexture(gl.TEXTURE0);
+
                 }
                 else if(textureID == 1){
                     gl.activeTexture(gl.TEXTURE1);
@@ -85,7 +82,9 @@ var textureUtils = {
                 else {
                     gl.activeTexture(gl.TEXTURE7);
                 }
-    }
+    },
+
+
 
 
 }

@@ -6,8 +6,10 @@ var modelTextureCoord;
 var elementsNumber = new Array();
 
 // MODEL IDs //
-var tree3 = 0;
-var tree1 = 1;
+
+var tree3 = 1;
+var tree1 = 2;
+var flower = 3;
 
 
 var modelLoader = {
