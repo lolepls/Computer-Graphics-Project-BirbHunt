@@ -1,3 +1,6 @@
+// This skybox rendering code was provided by Professor Stella and has been integrated in the project
+// by using some custom skyboxes provided by Dario Mombelli (dario.mombelli@naba.it)
+
 var skyboxProgram;
 var skyboxVao;
 var skyboxTexture;

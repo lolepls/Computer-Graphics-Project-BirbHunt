@@ -8,18 +8,20 @@
 
 in vec4 a_position;
 in vec2 a_uv;
+in vec3 a_norm;
 
 uniform mat4 projectionMatrix;
 uniform mat4 worldMatrix;
+uniform mat4 nMatrix;
 
 out vec2 uvCoord;
+out vec3 fs_norm;
 
 void main() {
-// gl_Position is a special variable
-// the Vertex Shader
-// is responsible for setting it
 
 uvCoord = a_uv;
+fs_norm = mat3(nMatrix) * a_norm; 
+
 mat4 matrix = projectionMatrix * worldMatrix;
 gl_Position = matrix * a_position;
 
