@@ -20,7 +20,7 @@ uniform vec3 observerDirection;
 void main() {
 
 // Set the output color. The model used here is the single direct light + hemispherical light from
-// the evnironment.
+// the evnironment + the reflection term.
 
 // Getting the color from the texture:
 vec4 pixelColor4 = texture(u_texture, uvCoord);
@@ -47,7 +47,7 @@ vec3 hemisphericLightColorContribution = (
 vec3 reflectionV = -reflect(directLightDirNorm, nNormal);
 vec3 specularLight = pixelColor * pow(clamp(dot(observerDirection, reflectionV), 0.0, 1.0), 800.0);
 
-// Computing the final light as the sum of the two contributions:
+// Computing the final light as the sum of the three contributions:
 vec3 finalLight = directLightColorContribution + hemisphericLightColorContribution + specularLight;
 
 //Out:

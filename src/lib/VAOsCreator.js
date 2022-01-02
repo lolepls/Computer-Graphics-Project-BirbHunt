@@ -15,21 +15,12 @@ var VAO = {
             return terrain_vao_creator(program);
         }
 
-       if(model == tree3){
-           return tree3_vao_creator(program);
-       }
+        else{
 
-       if(model == tree1){
-        return tree1_vao_creator(program);
-    }
+            return object_vao_creator(program);
 
-    if(model == flower){
-        return flower_vao_creator(program);
-    }
-
-    return tree3_vao_creator(program);
-       
-
+        }
+      
     }
 
 }
@@ -90,7 +81,7 @@ function terrain_vao_creator(program){
 
 
 
-function tree3_vao_creator(program){
+function object_vao_creator(program){
 
     var vao = gl.createVertexArray();
     gl.bindVertexArray(vao);
@@ -143,6 +134,7 @@ function tree3_vao_creator(program){
 
 }
 
+/*
 function tree1_vao_creator(program){
 
     var vao = gl.createVertexArray();
@@ -245,3 +237,4 @@ function flower_vao_creator(program){
     return vao;
 
 }
+*/

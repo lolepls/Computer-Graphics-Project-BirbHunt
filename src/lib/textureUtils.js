@@ -3,6 +3,12 @@ var textures = new Array();
 var textureUtils = {
 
 
+    /*
+    This function allows loading the textures.
+    Parameters:
+        - texturePath: path to the image file of your texture.
+        - textureUnit: slot where you want the texture to be loaded
+    */
     loadTexture: function(texturePath, textureUnit){
 
 

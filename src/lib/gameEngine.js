@@ -1,5 +1,11 @@
 /*
-This file contains the game engine, which manages the camera movement.
+This file contains the game engine, which manages the camera movement, the check for the winning condition
+and the animation of the golden flower in case of winning.
+
+The code for the FPS camera is an adaptation of the FPS camera shown in the WebGLFudamentals website:
+(https://webgl2fundamentals.org/webgl/lessons/webgl-qna-fps-like-camera-movement-with-basic-matrix-transformations.html)
+The camera will only work as intended if the camera is supposed to move parallel to the ground.
+
 */
 
 ////// GLOBAL VARIABLES ////////
@@ -102,6 +108,7 @@ var gameEngine = {
       }
 
       this.goldenFlowerViewAngleUpdate();
+
       cameraMatrix = matrixUtils.invertMatrix(cameraMatrix);
       projectionMatrix = matrixUtils.multiplyMatrices(perspectiveMatrix, cameraMatrix);
 
@@ -127,12 +134,12 @@ var gameEngine = {
 
     translateFlower: function(){
 
-      if (worldPosition.goldenFlower[1] < 1.0){
+      if (worldPosition.goldenFlower[1] < 0.5){
 
-        worldPosition.goldenFlower[1] += 0.05;
+        worldPosition.goldenFlower[1] += 0.01;
 
       }
-
+      //Start rotating the flower by 1 degree:
       worldPosition.goldenFlower[3] = worldPosition.goldenFlower[3] + 1.0;
 
       
