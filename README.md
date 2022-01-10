@@ -36,3 +36,4 @@ of GLSL without any external library.
 
 Set up a local server with xampp and run "index.html" in the src folder. Then you can move around with WASD. Find the hidden golden flower!
 
+![screenshot](https://user-images.githubusercontent.com/15633014/148821925-ddff6f19-88dd-40fc-8e99-b919f16a7ced.PNG)
