@@ -14,9 +14,9 @@ The camera will only work as intended if the camera is supposed to move parallel
 var pastTimeStamp = 0; // Instant zero.
 
 /// CAMERA VARIABLES ///
-var cx = 0.0; //Initial x position in the space of the player
+var cx = 10.0; //Initial x position in the space of the player
 var cy = 1.0; // Initial y position in the space of the player
-var cz = 0.0; // Initial z position in the space of the player
+var cz = 10.0; // Initial z position in the space of the player
 
 var elevation = 0.0; // Initial elevation angle of the player
 var angle = 180.0; // Initial angle to which the camera is oriented.

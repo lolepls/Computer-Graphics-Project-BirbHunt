@@ -35,12 +35,16 @@ var worldPosition = {
 
     flower: randPos(50),
 
-    goldenFlower: [Math.random()*worldWidth*10, 0, Math.random()*worldLength*10, 0],
+    //Random mode: the flower is on a random position
+    //goldenFlower: [Math.random()*worldWidth*10, 0, Math.random()*worldLength*10, 0],
+
+    //Presentation mode: the flower is always at the edge of the world
+    goldenFlower: [10.0, 0.0, 0.0, 0.0]
 
 }
 
 /*
-This function returns the positions for the models.
+This function returns random positions for the models.
 Parameters:
     - number: how many instances of a given model you want to have in the world.
               tree1: randPos(10) -> build [x,y,x,yrotation] for 10 different "tree1" instances.

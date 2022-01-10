@@ -1,5 +1,5 @@
 // This skybox rendering code was provided by Professor Stella and has been integrated in the project
-// by using some custom skyboxes provided by Dario Mombelli (dario.mombelli@naba.it)
+// by using some custom skyboxes provided by Dario Mombelli (dario_mombelli@studenti.naba.it)
 
 var skyboxProgram;
 var skyboxVao;
